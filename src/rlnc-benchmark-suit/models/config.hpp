@@ -9,72 +9,85 @@
 // copies of the Software, and to permit persons to whom the Software is          //
 // furnished to do so, subject to the following conditions:                       //
 ////////////////////////////////////////////////////////////////////////////////////
-// Result: This class model the result which can be produced by the benchmark     //
-//         suit                                                                   //
+// Config: This class model the configurations which can be used with the         //
+//         benchmark suit                                                         //
 // Termnology:                                                                    //
 //         g: generation size                                                     //
 //         k: symbol size                                                         //
+//         r: redundancy symbols                                                  //
 ////////////////////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Begin STL INCLUDES                                                             //
-////////////////////////////////////////////////////////////////////////////////////
-#include <cstdint>
-#include <chrono>
-#include <sstream>
-#include <string>
-////////////////////////////////////////////////////////////////////////////////////
-// End STL INCLUDES                                                               //
 ////////////////////////////////////////////////////////////////////////////////////
 
 namespace rlnc_benchmark_suit
 {
 namespace model
 {
-class result
+class config
 {
 public:
+    config()
+    {}
 
-    result(std::chrono::microseconds start, std::chrono::microseconds end,
-           uint32_t g, uint32_t k) : m_start(start), m_end(end), m_g(g), m_k(k)
+    void set_symbol_size(uint32_t k)
     {
-        m_data_size = g * k;
+        m_k = k;
     }
 
-    uint64_t latency()
+    uint32_t symbol_size()
     {
-        return static_cast<uint64_t>(m_end.count() - m_start.count());
+        return m_k
     }
 
-    double throughput()
+    void set_generation_size(uint32_t g)
     {
-        return static_cast<double>(m_data_size / this->latency());
+        m_g = g;
     }
 
-    /// method: to_csv
-    /// @ret std::string
-    /// Returns the result in as a comma seperated structure on the
-    /// following format:
-    /// START,END,DATA_SIZE,K,G,THROUGHPUT,LATENCY
-    std::string to_csv()
+    uint32_t generation_size()
     {
-        std::stringstream ss;
-        ss << m_start.count() << ","
-           << m_end.count() << ","
-           << m_data_size << ","
-           << m_k << ","
-           << m_g << ","
-           << throughput() << ","
-           << latency();
-        return ss.string();
+        return g;
+    }
+
+    void set_iterations(uint32_t iterations)
+    {
+        m_iterations = iterations;
+    }
+
+    uint32_t iterations()
+    {
+        return m_iterations;
+    }
+
+    void set_field(uint16 filed)
+    {
+        m_field = field;
+    }
+
+    uint16_t field()
+    {
+        return m_field;
+    }
+
+    void set_is_systematic(bool is_systematic)
+    {
+        m_is_systematic = is_systematic;
+    }
+
+    bool is_systematic()
+    {
+        return is_systematic;
     }
 
 private:
-    uint32_t m_data_size;
-    uint32_t m_g;
     uint32_t m_k;
-    std::chrono::microseconds m_start;
-    std::chrono::microseconds m_end;
+    uint32_t m_g;
+    uint32_t m_r;
+    uint32_t m_iterations;
+    uint16_t m_field;
+    bool m_is_systematic;
 
 };
 }
