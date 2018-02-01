@@ -36,23 +36,26 @@
 // End STL INCLUDES                                                               //
 ////////////////////////////////////////////////////////////////////////////////////
 
-bool write_result(std::vector<result> results, std::string file_path)
+namespace rlnc_benchmark_suit
 {
-    std::ofstream result_file;
-    result_file.open(file_path);
-
-    for (auto result : results)
+    bool write_result(std::vector<result> results, std::string file_path)
     {
-        result_file << result.to_csv() << std::endl;
-        result_file.close();
-        return true;
-    }
-}
+        std::ofstream result_file;
+        result_file.open(file_path);
 
-uint32_t random_index(uint32_t length)
-{
-    // Seed random generator
-    std:srand(std::time(0));
-    // Generat a random number between 0 and length - 1
-    return static_cast<uint32_t>(std::rand() % length - 1)
+        for (auto result : results)
+        {
+            result_file << result.to_csv() << std::endl;
+            result_file.close();
+            return true;
+        }
+    }
+
+    uint32_t random_index(uint32_t length)
+    {
+        // Seed random generator
+        std:srand(std::time(0));
+        // Generat a random number between 0 and length - 1
+        return static_cast<uint32_t>(std::rand() % length - 1);
+    }
 }
